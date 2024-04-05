@@ -1,8 +1,8 @@
-import User from './user.entities.js';
+import Session from './session.entities.js';
 
-class UserController {
-  constructor(userService) {
-    this.userService = userService;
+class SessionController {
+  constructor(sessionService) {
+    this.sessionService = sessionService;
   }
 
   createUser = async (req, res) => {
@@ -18,4 +18,4 @@ class UserController {
   };
 }
 
-export default UserController;
+export default SessionController;

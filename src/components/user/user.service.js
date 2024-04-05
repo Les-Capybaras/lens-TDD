@@ -1,11 +1,12 @@
 class UserService {
-  constructor() {
+  constructor(userRepository) {
     this.users = [];
+    this.userRepository = userRepository;
   }
 
-  addUser = (user) => {
-    this.users.push(user);
-    return user;
+  addUser = async (user) => {
+    const dbUser = await this.userRepository.addUser(user);
+    return dbUser;
   };
 
   getUsers = () => this.users;

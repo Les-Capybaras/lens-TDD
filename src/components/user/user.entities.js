@@ -8,7 +8,15 @@ class User {
     this.age = age;
   }
 
-  toJSON() {
+  toJSON(password=false) {
+    if (password) {
+      return {
+        id: this.id,
+        email: this.email,
+        password: this.password,
+        age: this.age,
+      }
+    }
     return {
       id: this.id,
       email: this.email,
