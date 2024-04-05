@@ -1,20 +1,22 @@
-import Session from './session.entities.js';
-
 class SessionController {
   constructor(sessionService) {
     this.sessionService = sessionService;
   }
 
-  createUser = async (req, res) => {
-    const user = new User(req.body.email, req.body.password, req.body.age);
-    return res.status(201).send(await this.userService.addUser(user));
+  getSessions = async (req, res, next) => {
+    
   };
 
-  getUsers = (_, res) => res.status(200).send(this.userService.getUsers());
+  createSession = async (req, res, next) => {
 
-  getUser = (req, res) => {
-    const { id } = req.params;
-    return res.status(200).send(this.userService.getUser(id));
+  };
+
+  getSession = async (req, res, next) => {
+
+  };
+
+  updateSession = async (req, res, next) => {
+
   };
 }
 
