@@ -1,11 +1,11 @@
-import {Schema, model} from "mongoose";
+import { Schema, model } from "mongoose";
 import crypto from 'crypto';
 
 const UserSchema = new Schema({
   uuid: {
-        type: String,
-        unique: true,
-        default: crypto.randomUUID()
+    type: String,
+    unique: true,
+    default: crypto.randomUUID()
   },
   email: {
     type: String,

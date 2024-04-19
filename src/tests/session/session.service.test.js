@@ -27,7 +27,10 @@ describe('SessionService', () => {
             expect(mockSessions).toHaveLength(4);
         });
 
-        //it('should not be able to create a break for a session that already have a break', async () => {
+        // TODO : implement the following tests
+        it('should not be able to create a session if last session is not over', async () => {});
+        it('should not be able to create a session if stopDate < startDate', async () => {});
+        it('should not be able to create a session if startDate is in an existing session', async () => {});
     });
     describe('updateSession', () => {
         it('should be able to update a session', async () => {
@@ -61,9 +64,11 @@ describe('SessionService', () => {
             // THEN
             await expect(updateSession).rejects.toThrow('Could not update session');
         });
+        // TODO : implement the following tests
+        it('should not be able to update a session if stopDate < startDate', async () => {});
     });
     describe('getEstimatedStopDate', () => {
-        it('should be able to calculate the estimated stop date', async () => {
+        it('should be able to calculate the estimated stop date when no sesison is completed', async () => {
             // GIVEN
             const startDate = new Date('2024-04-08T08:00:00.000Z');
 
@@ -73,5 +78,7 @@ describe('SessionService', () => {
             // THEN
             expect(estimatedStopDate).toEqual(new Date('2024-04-08T23:00:00.000Z'));
         });
+        // TODO : implement the following tests
+        it('should be able to calculate the estimated stop date when sessions are completed', async () => {});
     });
 });
