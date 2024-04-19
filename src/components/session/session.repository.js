@@ -8,6 +8,10 @@ class SessionRepository {
     return this.Session.find();
   }
 
+  async getSessionsByUserId(userId) {
+    return this.Session.find({ userId });
+  }
+
   async getSession(id) {
 
   }
@@ -32,7 +36,6 @@ class SessionRepository {
     } catch (error) {
       throw new Error("Could not update session: " + error.message);
     }
-  }
   }
 }
 
