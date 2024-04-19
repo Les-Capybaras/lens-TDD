@@ -21,8 +21,18 @@ class SessionRepository {
     return newSession.save();
   }
 
-  async updateSession(session) {
-
+  async updateSession(sessionId, updatedData) {
+    try {
+      const updatedSession = await this.Session.findByIdAndUpdate(
+        sessionId,
+        { $set: updatedData },
+        { new: true }
+      );
+      return updatedSession;
+    } catch (error) {
+      throw new Error("Could not update session: " + error.message);
+    }
+  }
   }
 }
 
