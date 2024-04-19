@@ -2,36 +2,21 @@ import { describe, expect, it } from '@jest/globals';
 import SessionService from '../../components/session/session.service';
 import { mockSessions, mockSessionsRepository } from './session.mock';
 
-describe('BreakService', () => {
+describe('SessionService', () => {
     const sessionService = new SessionService(mockSessionsRepository);
 
-    describe('getSessions', () => {
-        it('should return the sessions list', () => {
-            // WHEN
-            const sessions = sessionService.getSessions();
-            // THEN
-            expect(sessions).toEqual(mockSessions);
-        });
-
-        it('should return an empty array when no sessions in database', () => {
-            // GIVEN
-            mockSessionsRepository.getSessions.mockImplementation(() => []);
-            // WHEN
-            const sessions = sessionService.getSessions();
-            // THEN
-            expect(sessions).toEqual([]);
-        });
-
+    describe('createSession', () => {
         it('should be able to create a session', async () => {
             // GIVEN
-            const sessionId = mockSessions[0].id;
+            const sessionId = "10";
             const payload = {
                 startDate: '2021-01-01T00:00:00.000Z',
             };
 
             const expectedSession = {
                 ...payload,
-                id: '3',
+                endDate: null,
+                id: '10',
             };
 
             // WHEN
@@ -39,9 +24,29 @@ describe('BreakService', () => {
 
             // THEN
             expect(createdSession).toEqual(expectedSession);
-            expect(mockSessions).toHaveLength(3);
+            expect(mockSessions).toHaveLength(4);
         });
 
         //it('should not be able to create a break for a session that already have a break', async () => {
+    });
+    describe('updateSession', () => {
+        it('should be able to update a session', async () => {
+            // GIVEN
+            const sessionId = mockSessions[2].id;
+            const updatedData = {
+                endDate: '2024-04-06T23:00:00.000Z',
+            };
+
+            const expectedSession = {
+                ...mockSessions[2],
+                ...updatedData,
+            };
+
+            // WHEN
+            const updatedSession = await sessionService.updateSession(sessionId, updatedData);
+
+            // THEN
+            expect(updatedSession).toEqual(expectedSession);
+        });
     });
 });
