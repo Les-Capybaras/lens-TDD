@@ -1,3 +1,5 @@
+import { addHours } from "date-fns";
+
 class SessionService {
   constructor(sessionRepository) {
     this.sessionRepository = sessionRepository;
@@ -24,6 +26,12 @@ class SessionService {
       throw new Error("Could not update session: " + error.message);
     }
   }
+
+  getEstimatedStopDate = async (startDate) => {
+    // Ajouter 15 heures à la startDate
+    const estimatedStopDate = addHours(startDate, 15);
+    return estimatedStopDate;
+  };
 
 }
 
