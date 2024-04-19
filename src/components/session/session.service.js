@@ -11,7 +11,8 @@ class SessionService {
 
   }
 
-  createSession = async (session) => {
+  createSession = async (payload) => {
+    return this.sessionRepository.createSession(payload);
 
   }
 

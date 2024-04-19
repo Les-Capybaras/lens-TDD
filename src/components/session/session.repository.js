@@ -5,15 +5,20 @@ class SessionRepository {
   }
 
   async getSessions() {
-
+    return this.Session.find();
   }
 
   async getSession(id) {
 
   }
 
-  async createSession(session) {
+  async createSession(sessionId, payload) {
+    const newSession = new this.Session({
+      ...payload,
+      sessionId,
+    });
 
+    return newSession.save();
   }
 
   async updateSession(session) {
