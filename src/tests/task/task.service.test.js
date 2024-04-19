@@ -1,7 +1,7 @@
+/* eslint-disable import/no-extraneous-dependencies */
+import { describe, expect, it } from '@jest/globals';
 import TaskService from '../../components/task/task.service';
 import { mockTaskRepository, mockTasks } from './task.mock';
-
-
 
 describe('TaskService', () => {
   const taskService = new TaskService(mockTaskRepository);
@@ -27,15 +27,15 @@ describe('TaskService', () => {
   describe('updateTask', () => {
     it('should return the updated task', () => {
       // GIVEN
-      const taskId = "1";
+      const taskId = '1';
       const updatedTask = {
         completed: true,
-        description: "updated description"
+        description: 'updated description',
       };
       const expectedUpdatedTask = {
         id: taskId,
         completed: true,
-        description: "updated description"
+        description: 'updated description',
       };
       // WHEN
       const updated = taskService.updateTask(taskId, updatedTask);
@@ -45,16 +45,16 @@ describe('TaskService', () => {
 
     it('should throw an error if task is not found', () => {
       // GIVEN
-      const taskId = "non_existing_id";
+      const taskId = 'non_existing_id';
       const updatedTask = {
         completed: true,
-        description: "updated description"
+        description: 'updated description',
       };
       mockTaskRepository.findOne.mockImplementation(() => null);
       // WHEN
       const updateTask = () => taskService.updateTask(taskId, updatedTask);
       // THEN
-      expect(updateTask).toThrowError("Task not found");
+      expect(updateTask).toThrowError('Task not found');
     });
   });
 });

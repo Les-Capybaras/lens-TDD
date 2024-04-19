@@ -7,8 +7,14 @@ class BreakController {
   }
 
   createBreak = async (req, res) => {
-    const breaks = new Break(req.body.sessionId, req.body.startDate, req.body.endDate, req.body.duration);
-    return res.status(201).send(await this.breakService.createBreak(breaks));
+    const payload = req.body;
+
+    try {
+      const newBreak = await this.breakService.createBreak(payload);
+      res.status(201).json(newBreak);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
   };
 }
 
