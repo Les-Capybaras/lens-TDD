@@ -23,7 +23,15 @@ class SessionController {
   };
 
   updateSession = async (req, res, next) => {
+    const sessionId = req.params.id; 
+    const updatedData = req.body;
 
+    try {
+      const updatedSession = await this.sessionService.updateSession(sessionId, updatedData);
+      res.status(200).json(updatedSession);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
   };
 }
 
