@@ -1,0 +1,219 @@
+openapi: 3.0.0
+info:
+  title: Application de suivi de port de lentilles de contact
+  version: '1.0'
+basePath: /
+schemes:
+  - https
+paths:
+  /utilisateurs:
+    get:
+      tags:
+        - Utilisateurs
+      summary: Récupérer tous les utilisateurs
+      responses:
+        200:
+          description: Liste des utilisateurs récupérée avec succès
+    post:
+      tags:
+        - Utilisateurs
+      summary: Créer un nouvel utilisateur
+      responses:
+        201:
+          description: Utilisateur créé avec succès
+  /utilisateurs/{id}:
+    get:
+      tags:
+        - Utilisateurs
+      summary: Récupérer un utilisateur spécifique
+      responses:
+        200:
+          description: Utilisateur récupéré avec succès
+        404:
+          description: Utilisateur non trouvé
+    put:
+      tags:
+        - Utilisateurs
+      summary: Mettre à jour un utilisateur spécifique
+      responses:
+        200:
+          description: Utilisateur mis à jour avec succès
+        404:
+          description: Utilisateur non trouvé
+    delete:
+      tags:
+        - Utilisateurs
+      summary: Supprimer un utilisateur spécifique
+      responses:
+        204:
+          description: Utilisateur supprimé avec succès
+  /sessions:
+    get:
+      tags:
+        - Sessions
+      summary: Récupérer toutes les sessions
+      responses:
+        200:
+          description: Liste des sessions récupérée avec succès
+    post:
+      tags:
+        - Sessions
+      summary: Créer une nouvelle session
+      responses:
+        201:
+          description: Session créée avec succès
+  /sessions/{id}:
+    get:
+      tags:
+        - Sessions
+      summary: Récupérer une session spécifique
+      responses:
+        200:
+          description: Session récupérée avec succès
+        404:
+          description: Session non trouvée
+    put:
+      tags:
+        - Sessions
+      summary: Mettre à jour une session spécifique
+      responses:
+        200:
+          description: Session mise à jour avec succès
+        404:
+          description: Session non trouvée
+  /sessions/{sessionId}/pauses:
+    get:
+      tags:
+        - Sessions
+      summary: Récupérer toutes les pauses d'une session spécifique
+      responses:
+        200:
+          description: Liste des pauses de la session récupérée avec succès
+    post:
+      tags:
+        - Sessions
+      summary: Créer une nouvelle pause pour une session spécifique
+      responses:
+        201:
+          description: Pause créée avec succès
+  /sessions/{sessionId}/pauses/{pauseId}:
+    get:
+      tags:
+        - Sessions
+      summary: Récupérer une pause spécifique d'une session spécifique
+      responses:
+        200:
+          description: Pause récupérée avec succès
+        404:
+          description: Pause non trouvée
+    put:
+      tags:
+        - Sessions
+      summary: Mettre à jour une pause spécifique d'une session spécifique
+      responses:
+        200:
+          description: Pause mise à jour avec succès
+        404:
+          description: Pause non trouvée
+  /sante/{id_utilisateur}:
+    get:
+      tags:
+        - Santé
+      summary: Récupérer les données de santé d'un utilisateur spécifique
+      responses:
+        200:
+          description: Données de santé récupérées avec succès
+        404:
+          description: Utilisateur non trouvé
+    post:
+      tags:
+        - Santé
+      summary: Ajouter les résultats du test ophtalmique initial pour un utilisateur
+      responses:
+        201:
+          description: Résultats du test initial ajoutés avec succès
+        404:
+          description: Utilisateur non trouvé
+  /sante/{id_utilisateur}/test-final:
+    post:
+      tags:
+        - Santé
+      summary: Ajouter les résultats du test ophtalmique après 6 semaines pour un utilisateur
+      responses:
+        201:
+          description: Résultats du test final ajoutés avec succès
+        404:
+          description: Utilisateur non trouvé
+  /dashboard:
+    get:
+      tags:
+        - Dashboard
+      summary: Récupérer toutes les sessions enregistrées pour affichage dans le tableau de bord
+      responses:
+        200:
+          description: Liste des sessions enregistrées récupérée avec succès
+  /dashboard/{id}:
+    get:
+      tags:
+        - Dashboard
+      summary: Récupérer une session spécifique depuis le tableau de bord
+      responses:
+        200:
+          description: Session récupérée avec succès
+        404:
+          description: Session non trouvée
+    put:
+      tags:
+        - Dashboard
+      summary: Mettre à jour une session spécifique depuis le tableau de bord
+      responses:
+        200:
+          description: Session mise à jour avec succès
+        404:
+          description: Session non trouvée
+tags:
+  - name: Utilisateurs
+    description: Gestion des utilisateurs
+  - name: Sessions
+    description: Gestion des sessions de port de lentilles
+  - name: Santé
+    description: Gestion des données de santé des utilisateurs
+  - name: Dashboard
+    description: Opérations liées au tableau de bord de l'application
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: L'identifiant unique de l'utilisateur
+        email:
+          type: string
+          description: L'adresse e-mail de l'utilisateur
+        password:
+          type: string
+          description: Le mot de passe de l'utilisateur
+        age:
+          type: integer
+          description: L'âge de l'utilisateur
+          format: int32
+      required:
+        - email
+        - password
+        - age
+    Session:
+      type: object
+      properties:
+        id:
+          type: string
+          description: L'identifiant unique de la session
+        startDate:
+          type: string
+          description: La date de début de la sesison
+        stopDate:
+          type: string
+          description: La date de fin de la sesison
+        duration:
+          type: string
+          description: La durée de la sesison

@@ -9,8 +9,9 @@ class UserService {
     return dbUser;
   };
 
+  // TODO: Implement the following methods
   getUsers = () => this.users;
-
+  
   getUser = (id) => {
     const user = this.users.find((u) => u.id === id);
     return user;
