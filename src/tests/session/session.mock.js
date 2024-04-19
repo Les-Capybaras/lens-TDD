@@ -15,3 +15,17 @@ export const mockSessions = [
       endDate: '2021-01-01T23:30:00.000Z',
     }
   ];
+
+  export const mockSessionsRepository = {
+  createSession: jest.fn( async (payload) => {
+    const newSession = {
+      ...payload,
+      id: '4',
+    };
+
+    mockSessions.push(newSession);
+    return newSession;
+  }),
+  getSessions: jest.fn(() => mockSessions),
+  updateSession: jest.fn(),
+};
