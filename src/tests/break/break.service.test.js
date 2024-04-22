@@ -25,7 +25,9 @@ describe('BreakService', () => {
       // THEN
       expect(breaks).toEqual([]);
     });
+  });
 
+  describe('createBreaks', () => {
     it('should be able to create a break for a given session', async () => {
       // GIVEN
       const sessionId = mockSessions[2].id;
@@ -64,7 +66,7 @@ describe('BreakService', () => {
       expect(createdBreak).toThrowError('Session already have a break');
     });
 
-    it('should throw a valdiation error is endDate is set before startDate', async () => {
+    it('should throw a validation error is endDate is set before startDate', async () => {
       // GIVEN
       const sessionId = mockSessions[0].id;
       const payload = {
@@ -106,6 +108,39 @@ describe('BreakService', () => {
 
       // THEN
       expect(createdBreak).toThrowError('Missing required sessionId fields');
+    });
+
+    it('should throw an error if pause duration exceeds session time', () => {
+        // GIVEN
+        const sessionId = mockSessions[0].id;
+        const payload = {
+          startDate: '2024-04-06T00:00:00.000Z',
+          endDate: '2024-04-06T23:30:00.000Z',
+            sessionId: sessionId,
+        };
+
+        // WHEN
+        const createdBreak = () => breakService.createBreak(payload);
+
+        // THEN
+        expect(createdBreak).toThrowError('Break duration exceeds session time');
+    });
+
+
+    it('should throw an error if startDate is not in session', () => {
+      // GIVEN
+      const sessionId = mockSessions[0].id;
+      const payload = {
+        startDate: '2024-04-05T00:00:00.000Z',
+        endDate: '2024-04-06T23:30:00.000Z',
+        sessionId: sessionId,
+      };
+
+      // WHEN
+      const createdBreak = () => breakService.createBreak(payload);
+
+      // THEN
+      expect(createdBreak).toThrowError('Break must be within session time');
     });
   });
 });

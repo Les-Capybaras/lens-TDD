@@ -6,6 +6,15 @@ class BreakController {
     this.breakService = breakService;
   }
 
+  getBreaks = async (req, res) => {
+    try {
+      const breaks = await this.breakService.getBreaks();
+      res.status(200).json(breaks);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  };
+
   createBreak = async (req, res) => {
     const payload = req.body;
 
