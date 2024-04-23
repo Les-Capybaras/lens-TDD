@@ -22,6 +22,18 @@ class SessionRepository {
     });
   }
 
+  async getSessions() {
+    return this.Session.find();
+  }
+
+  async getSessionsByUserId(userId) {
+    return this.Session.find({ userId });
+  }
+
+  async getSession(id) {
+
+  }
+
   async createSession(sessionId, payload) {
     const newSession = new this.Session({
       ...payload,
