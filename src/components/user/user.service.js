@@ -5,16 +5,14 @@ class UserService {
   }
 
   addUser = async (user) => {
-    const dbUser = await this.userRepository.addUser(user);
-    return dbUser;
+    return await this.userRepository.addUser(user);
   };
 
   // TODO: Implement the following methods
   getUsers = () => this.users;
   
   getUser = (id) => {
-    const user = this.users.find((u) => u.id === id);
-    return user;
+    return this.users.find((u) => u.id === id);
   };
 }
 

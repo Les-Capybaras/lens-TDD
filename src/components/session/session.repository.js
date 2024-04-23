@@ -1,4 +1,4 @@
-const { startOfDay, endOfDay } = require('date-fns');
+import {endOfDay, startOfDay} from 'date-fns';
 
 class SessionRepository {
 
@@ -6,18 +6,20 @@ class SessionRepository {
     this.Session = SessionModel;
   }
 
+    async getSessions() {
+      return this.Session.find();
+    }
+
   async getSessionsByDate(startDate) {
     const start = startOfDay(startDate);
     const end = endOfDay(startDate);
 
-    const sessions = await this.Session.find({
+    return await this.Session.find({
       createdAt: {
         $gte: start,
         $lte: end
       }
     });
-
-    return sessions;
   }
 
   async getSessions() {
@@ -43,12 +45,11 @@ class SessionRepository {
 
   async updateSession(sessionId, updatedData) {
     try {
-      const updatedSession = await this.Session.findByIdAndUpdate(
-        sessionId,
-        { $set: updatedData },
-        { new: true }
+      return await this.Session.findByIdAndUpdate(
+          sessionId,
+          {$set: updatedData},
+          {new: true}
       );
-      return updatedSession;
     } catch (error) {
       throw new Error("Could not update session: " + error.message);
     }

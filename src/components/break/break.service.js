@@ -1,4 +1,4 @@
-import BreakValidator from "./break.validator";
+import BreakValidator from "./break.validator.js";
 
 class BreakService {
   constructor(breakRepository) {

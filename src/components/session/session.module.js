@@ -1,7 +1,8 @@
-import SessionController from "./session.controller";
-import SessionRouter from "./session.router";
-import SessionService from "./session.service";
-import SessionRepository from "./session.repository";
+import SessionController from "./session.controller.js";
+import SessionRouter from "./session.router.js";
+import SessionService from "./session.service.js";
+import SessionRepository from "./session.repository.js";
+import SessionModel from "./session.model.js";
 
 
 const sessionRepository = new SessionRepository(SessionModel);

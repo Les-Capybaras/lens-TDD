@@ -20,6 +20,11 @@ const SessionSchema = new Schema({
     type: Number,
     required: false,
   },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
 })
 
 export default model("Session", SessionSchema);
