@@ -7,6 +7,10 @@ class BreakRepository {
     return this.Break.find();
   }
 
+  async getBreaksBySessionsId(sessionId) {
+    return this.Break.find({ sessionId });
+  }
+
   async createBreak(sessionId, payload) {
     const newBreak = new this.Break({
       ...payload,

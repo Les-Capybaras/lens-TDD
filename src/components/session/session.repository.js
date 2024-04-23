@@ -20,6 +20,18 @@ class SessionRepository {
     return sessions;
   }
 
+  async getSessions() {
+    return this.Session.find();
+  }
+
+  async getSessionsByUserId(userId) {
+    return this.Session.find({ userId });
+  }
+
+  async getSession(id) {
+
+  }
+
   async createSession(sessionId, payload) {
     const newSession = new this.Session({
       ...payload,
@@ -41,7 +53,6 @@ class SessionRepository {
       throw new Error("Could not update session: " + error.message);
     }
   }
-}
 }
 
 export default SessionRepository;
