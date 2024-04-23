@@ -1,3 +1,5 @@
+import { endOfDay, format, startOfDay } from 'date-fns';
+
 export const mockSessions = [
     {
       id: '1',
@@ -15,15 +17,15 @@ export const mockSessions = [
     },
     {
       id: '3',
-      startDate: '2024-04-06T08:00:00.000Z',
+      startDate: '2024-04-08T08:00:00.000Z',
       endDate: null,
       duration: null,
       userId: '2',
     }
   ];
 
-  export const mockSessionsRepository = {
-  createSession: jest.fn( async (payload) => {
+export const mockSessionsRepository = {
+  createSession: jest.fn(async (payload) => {
     const newSession = {
       ...payload,
       endDate: null,
@@ -35,13 +37,27 @@ export const mockSessions = [
   }),
   getSessions: jest.fn(() => mockSessions),
   getSessionsByUserId: jest.fn((userId) => mockSessions.filter(session => session.userId === userId)),
-  updateSession: jest.fn( async (sessionId, updatedData) => {
+  updateSession: jest.fn(async (sessionId, updatedData) => {
     const sessionIndex = mockSessions.findIndex((session) => session.id === sessionId);
-    
+    if (sessionIndex < 0) {
+      throw new Error('Session not found');
+    }
     mockSessions[sessionIndex] = {
       ...mockSessions[sessionIndex],
       ...updatedData,
     };
+
     return mockSessions[sessionIndex];
+  }),
+  getSessionsByDate: jest.fn(async (date) => {
+    const start = startOfDay(date);
+    const end = endOfDay(date);
+
+    const sessions = mockSessions.filter((session) => {
+      const sessionStartDate = new Date(session.startDate);
+      return sessionStartDate >= start && sessionStartDate <= end;
+    });
+    return sessions;
+    
   }),
 };

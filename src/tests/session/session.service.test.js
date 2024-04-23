@@ -48,5 +48,30 @@ describe('SessionService', () => {
             // THEN
             expect(updatedSession).toEqual(expectedSession);
         });
+        it('should not be able to update a session that does not exist', async () => {
+            // GIVEN
+            const sessionId = '100';
+            const updatedData = {
+                endDate: '2024-04-06T23:00:00.000Z',
+            };
+
+            // WHEN
+            const updateSession = sessionService.updateSession(sessionId, updatedData);
+
+            // THEN
+            await expect(updateSession).rejects.toThrow('Could not update session');
+        });
+    });
+    describe('getEstimatedStopDate', () => {
+        it('should be able to calculate the estimated stop date', async () => {
+            // GIVEN
+            const startDate = new Date('2024-04-08T08:00:00.000Z');
+
+            // WHEN
+            const estimatedStopDate = await sessionService.getEstimatedStopDate(startDate);
+
+            // THEN
+            expect(estimatedStopDate).toEqual(new Date('2024-04-08T23:00:00.000Z'));
+        });
     });
 });

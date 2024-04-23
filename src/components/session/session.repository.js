@@ -1,7 +1,23 @@
+const { startOfDay, endOfDay } = require('date-fns');
+
 class SessionRepository {
 
   constructor(SessionModel) {
     this.Session = SessionModel;
+  }
+
+  async getSessionsByDate(startDate) {
+    const start = startOfDay(startDate);
+    const end = endOfDay(startDate);
+
+    const sessions = await this.Session.find({
+      createdAt: {
+        $gte: start,
+        $lte: end
+      }
+    });
+
+    return sessions;
   }
 
   async getSessions() {
