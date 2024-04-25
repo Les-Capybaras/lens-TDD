@@ -35,13 +35,20 @@ class SessionRepository {
   }
 
   async createSession(sessionId, payload) {
+    const lastSession = await this.getLastSession();
+    if (lastSession && !this.isSessionOver(lastSession)) {
+        throw new Error('Cannot start a new session before the last one ends');
+    }
+    if (payload.endDate && new Date(payload.endDate) < new Date(payload.startDate)) {
+        throw new Error('Stop date must be after start date');
+    }
     const newSession = new this.Session({
-      ...payload,
-      sessionId,
+        ...payload,
+        sessionId,
     });
 
     return newSession.save();
-  }
+}
 
   async updateSession(sessionId, updatedData) {
     try {

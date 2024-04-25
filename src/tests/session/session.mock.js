@@ -26,9 +26,11 @@ export const mockSessions = [
 
 export const mockSessionsRepository = {
   createSession: jest.fn(async (payload) => {
+    if (payload.endDate && new Date(payload.endDate) < new Date(payload.startDate)) {
+      throw new Error('Stop date must be after start date');
+    }
     const newSession = {
       ...payload,
-      endDate: null,
       id: '10',
     };
 
@@ -59,5 +61,13 @@ export const mockSessionsRepository = {
     });
     return sessions;
     
+  }),
+  getLastSession: jest.fn(async () => {
+    const lastSession = mockSessions[mockSessions.length - 1];
+    if (lastSession.endDate) {
+      return lastSession;
+    } else {
+      throw new Error('Last session is not over');
+    }
   }),
 };
