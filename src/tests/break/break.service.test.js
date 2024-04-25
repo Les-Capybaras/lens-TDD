@@ -1,10 +1,10 @@
 import { describe, expect, it } from '@jest/globals';
 import BreakService from '../../components/break/break.service';
 import { mockBreaks, mockBreaksRepository } from './break.mock';
-import { mockSessions } from '../session/session.mock';
+import { mockSessions, mockSessionsRepository } from '../session/session.mock';
 
 describe('BreakService', () => {
-  const breakService = new BreakService(mockBreaksRepository);
+  const breakService = new BreakService(mockBreaksRepository, mockSessionsRepository);
 
   describe('getBreaks', () => {
     it('should return the breaks list for any session', () => {
@@ -30,10 +30,10 @@ describe('BreakService', () => {
   describe('createBreaks', () => {
     it('should be able to create a break for a given session', async () => {
       // GIVEN
-      const sessionId = mockSessions[2].id;
+      const sessionId = mockSessions[3].id;
       const payload = {
-        startDate: '2021-01-01T00:00:00.000Z',
-        endDate: '2021-01-01T00:30:00.000Z',
+        startDate: '2024-04-08T08:00:00.000Z',
+        endDate: '2024-04-08T09:30:00.000Z',
         sessionId: sessionId,
       };
 
@@ -52,10 +52,10 @@ describe('BreakService', () => {
 
     it('should not be able to create a break for a session that already have a break', async () => {
       // GIVEN
-      const sessionId = mockSessions[0].id;
+      const sessionId = mockSessions[1].id;
       const payload = {
-        startDate: '2021-01-01T00:00:00.000Z',
-        endDate: '2021-01-01T00:30:00.000Z',
+        startDate: '2024-04-07T09:00:00.000Z',
+        endDate: '2024-04-07T09:30:00.000Z',
         sessionId: sessionId,
       };
 
@@ -123,7 +123,7 @@ describe('BreakService', () => {
         const createdBreak = () => breakService.createBreak(payload);
 
         // THEN
-        expect(createdBreak).toThrowError('Break duration exceeds session time');
+        expect(createdBreak).toThrowError('Pause duration exceeds session time');
     });
 
 
@@ -140,7 +140,7 @@ describe('BreakService', () => {
       const createdBreak = () => breakService.createBreak(payload);
 
       // THEN
-      expect(createdBreak).toThrowError('Break must be within session time');
+      expect(createdBreak).toThrowError('Pause duration exceeds session time');
     });
   });
 });

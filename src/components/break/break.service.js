@@ -1,9 +1,9 @@
 import BreakValidator from "./break.validator.js";
 
 class BreakService {
-  constructor(breakRepository) {
+  constructor(breakRepository, sessionRepository) {
     this.breakRepository = breakRepository;
-    this.breakValidator = new BreakValidator();
+    this.breakValidator = new BreakValidator(sessionRepository);
   }
 
   getBreaks() {

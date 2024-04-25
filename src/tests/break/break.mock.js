@@ -1,7 +1,7 @@
 export const mockBreaks = [
   {
     id: '1',
-    sessionId: '1',
+    sessionId: '2',
     startDate: '2021-01-01T00:00:00.000Z',
     endDate: '2021-01-01T00:30:00.000Z',
     duration: 30,

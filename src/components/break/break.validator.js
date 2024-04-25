@@ -1,7 +1,10 @@
 import date from 'date-fns';
-import sessionRepository from "../session/session.repository.js";
 
 class BreakValidator {
+    constructor(sessionRepository) {
+      this.sessionRepository = sessionRepository;
+    }
+
     createBreakValidator(payload) {
         if (!payload.startDate || !payload.endDate) {
             throw new Error('Missing required fields');
@@ -16,9 +19,13 @@ class BreakValidator {
         }
 
         // should throw an error if pause duration exceeds session time
-        const session = sessionRepository.getSessions().find((session) => session.id === payload.sessionId);
+        const session = this.sessionRepository.getSessions().find((session) => session.id === payload.sessionId);
 
-        if (date.sub(payload.endDate, payload.startDate) > session.duration) {
+        if (session.endDate === null) {
+            throw new Error('Session is not finished yet');
+        }
+
+        if (session.startDate > payload.startDate || session.endDate < payload.endDate) {
             throw new Error('Pause duration exceeds session time');
         }
     }

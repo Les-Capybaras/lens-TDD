@@ -10,10 +10,10 @@ describe('DashboardService', () => {
     it('should return the dashboards statistics far all users', async () => {
       // GIVEN
       const expectedDashboards = {
-          totalSessions: 3,
+          totalSessions: 4,
           totalBreakTime: 60,
           totalDuration: 1860,
-          mediumDuration: 620,
+          mediumDuration: 465,
           mediumBreakTime: 30,
           minimumDuration: 0,
           minimumBreakTime: 30,

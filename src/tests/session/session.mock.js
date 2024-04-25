@@ -21,6 +21,13 @@ export const mockSessions = [
       endDate: null,
       duration: null,
       userId: '2',
+    },
+    {
+      id: '4',
+      startDate: '2024-04-08T08:00:00.000Z',
+      endDate: '2024-04-08T18:00:00.000Z',
+      duration: null,
+      userId: '2',
     }
   ];
 

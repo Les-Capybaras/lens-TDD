@@ -24,7 +24,7 @@ describe('SessionService', () => {
 
             // THEN
             expect(createdSession).toEqual(expectedSession);
-            expect(mockSessions).toHaveLength(4);
+            expect(mockSessions).toHaveLength(5);
         });
 
         // TODO : implement the following tests
