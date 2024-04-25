@@ -1,8 +1,11 @@
 import { addHours, addMinutes, intervalToDuration } from "date-fns";
+import SessionValidator from "./session.validator.js";
+
 
 class SessionService {
   constructor(sessionRepository) {
     this.sessionRepository = sessionRepository;
+    this.sessionValidator = new SessionValidator(sessionRepository);
   }
 
   getEstimatedStopDate = async (startDate) => {
@@ -27,14 +30,13 @@ class SessionService {
     // Calculate the estimated stop date by adding the remaining time to the current date
     const estimatedStopDate = addMinutes(startDate, remainingDuration);
 
-    console.log("estimatedStopDate", estimatedStopDate)
-
     return estimatedStopDate;
   };
 
   createSession = async (payload) => {
-    return this.sessionRepository.createSession(payload);
+    this.sessionValidator.createSessionValidator(payload);
 
+    return this.sessionRepository.createSession(payload);
   }
 
   updateSession = async (sessionId, updatedData) => {

@@ -10,14 +10,12 @@ describe('SessionService', () => {
     describe('createSession', () => {
         it('should be able to create a session', async () => {
             // GIVEN
-            const sessionId = "10";
             const payload = {
                 startDate: '2021-01-01T00:00:00.000Z',
             };
 
             const expectedSession = {
                 ...payload,
-                endDate: null,
                 id: '10',
             };
 
@@ -29,32 +27,34 @@ describe('SessionService', () => {
             expect(mockSessions).toHaveLength(5);
         });
 
+        it('should throw a validation error if startDate is not a valid date', async () => {
+            // GIVEN
+            const payload = {
+                startDate: 'invalid date',
+            };
+
+            // WHEN
+            const createdSession = sessionService.createSession(payload);
+
+            // THEN
+            await expect(createdSession).rejects.toThrow('Invalid date');
+        });
+
         // TODO : implement the following tests
 
         // Nouveau test : devrait ne pas pouvoir créer une session si la dernière session n'est pas terminée
         it('should not be able to create a session if last session is not over', async () => {
             // GIVEN
-            const lastSessionEndDate = new Date(mockSessions[mockSessions.length - 1].endDate);
+            const lastSessionStartDate = mockSessions[2].startDate;
             const payload = {
-                startDate: lastSessionEndDate.toISOString(), // Setting the start date as the end date of the last session
+                startDate: lastSessionStartDate, // Setting the start date as the end date of the last session
             };
-
-            // Mocking the createSession method to throw an error when the condition is met
-            mockSessionsRepository.createSession = jest.fn().mockImplementation(() => {
-                throw new Error('Cannot start a new session before the last one ends');
-            });
         
             // WHEN
-            let error;
-            try {
-                await mockSessionsRepository.createSession(payload); // Using the mock repository method
-            } catch (e) {
-                error = e;
-            }
-        
+            const createdSession = () => sessionService.createSession(payload);
+
             // THEN
-            expect(error).toBeDefined();
-            expect(error.message).toBe('Cannot start a new session before the last one ends');
+            expect(createdSession).toThrowError('Cannot create a new session before the last one is over');
         });
         
 

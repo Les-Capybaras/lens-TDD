@@ -33,9 +33,6 @@ export const mockSessions = [
 
 export const mockSessionsRepository = {
   createSession: jest.fn(async (payload) => {
-    if (payload.endDate && new Date(payload.endDate) < new Date(payload.startDate)) {
-      throw new Error('Stop date must be after start date');
-    }
     const newSession = {
       ...payload,
       id: '10',
