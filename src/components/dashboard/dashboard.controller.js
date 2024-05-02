@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-import Dashboard from './dashboard.entities.js';
 
 class DashboardController {
   constructor(DashboardService) {

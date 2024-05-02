@@ -1,13 +1,13 @@
-import DashboardController from './break.controller.js';
-import DashboardService from './break.service.js';
-import DashboardRouter from './break.router.js';
+import DashboardController from './dashboard.controller.js';
+import DashboardService from './dashboard.service.js';
+import DashboardRouter from './dashboard.router.js';
 import SessionRepository from '../session/session.repository.js';
 import BreakRepository from '../break/break.repository.js';
 
 
 const dashboardService = new DashboardService(SessionRepository, BreakRepository);
-const dashboardController = new DashboardController(DashboardService);
-const dashboardRouter = new DashboardRouter(DashboardController);
+const dashboardController = new DashboardController(dashboardService);
+const dashboardRouter = new DashboardRouter(dashboardController);
 
 export default {
   service: dashboardService,

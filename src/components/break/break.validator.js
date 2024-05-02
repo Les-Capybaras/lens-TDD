@@ -1,5 +1,3 @@
-import date from 'date-fns';
-
 class BreakValidator {
     constructor(sessionRepository) {
       this.sessionRepository = sessionRepository;
