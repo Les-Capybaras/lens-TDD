@@ -31,7 +31,7 @@ class SessionRepository {
   }
 
   async getSession(id) {
-
+    return this.Session.find({ _id: id })
   }
 
   async createSession(sessionId, payload) {

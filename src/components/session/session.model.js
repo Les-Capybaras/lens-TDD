@@ -1,7 +1,6 @@
 import { Schema, model } from "mongoose";
 import crypto from 'crypto';
 
-// TODO: add relation with user
 const SessionSchema = new Schema({
   id: {
     type: String,

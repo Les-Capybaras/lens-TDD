@@ -41,6 +41,12 @@ class SessionService {
 
   updateSession = async (sessionId, updatedData) => {
     try {
+      const currentSession = await this.sessionRepository.getSession(id);
+
+      if (currentSession.startDate > updatedData.endDate) {
+        throw new Error('Could not update session')
+      }
+
       const updatedSession = await this.sessionRepository.updateSession(sessionId, updatedData);
       return updatedSession;
     } catch (error) {

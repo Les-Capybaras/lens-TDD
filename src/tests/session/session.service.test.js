@@ -39,62 +39,43 @@ describe('SessionService', () => {
             // THEN
             await expect(createdSession).rejects.toThrow('Invalid date');
         });
-
-        // TODO : implement the following tests
-
-        // Nouveau test : devrait ne pas pouvoir créer une session si la dernière session n'est pas terminée
         it('should not be able to create a session if last session is not over', async () => {
             // GIVEN
             const lastSessionStartDate = mockSessions[2].startDate;
             const payload = {
                 startDate: lastSessionStartDate, // Setting the start date as the end date of the last session
             };
-        
+
             // WHEN
             const createdSession = () => sessionService.createSession(payload);
 
             // THEN
             expect(createdSession).toThrowError('Cannot create a new session before the last one is over');
         });
-        
-
-        // Nouveau test : devrait ne pas pouvoir créer une session si stopDate < startDate
         it('should not be able to create a session if stopDate < startDate', async () => {
+
             // GIVEN
             const payload = {
                 startDate: '2024-04-05T12:00:00.000Z',
                 endDate: '2024-04-05T08:00:00.000Z', // stopDate avant startDate
             };
-        
+
             // WHEN & THEN
             await expect(sessionService.createSession(payload)).rejects.toThrow('Stop date must be after start date');
         });
-        
+
 
         it('should not be able to create a session if startDate is in an existing session', async () => {
             // GIVEN
             const payload = {
-                startDate: '2024-04-03T10:00:00.000Z', // startDate dans une session existante
+                userId: '1',
+                startDate: '2024-04-06T08:00:00.000Z', // startDate dans une session existante
             };
-        
-            // Mocking the createSession method to throw an error when the condition is met
-            mockSessionsRepository.createSession = jest.fn().mockImplementation(() => {
-                throw new Error('Session with overlapping start date already exists');
-            });
-        
-            // WHEN
-            let error;
-            try {
-                await mockSessionsRepository.createSession(payload); // Using the mock repository method
-            } catch (e) {
-                error = e;
-            }
-        
-            // THEN
-            expect(error).toBeDefined();
-            expect(error.message).toBe('Session with overlapping start date already exists');
+
+            // WHEN & THEN
+            await expect(sessionService.createSession(payload)).rejects.toThrow('Session with overlapping start date already exists');
         });
-        
+
     });
 
     describe('updateSession', () => {
@@ -129,37 +110,25 @@ describe('SessionService', () => {
             // THEN
             await expect(updateSession).rejects.toThrow('Could not update session');
         });
-        // TODO : implement the following tests
-
-         // Nouveau test : devrait ne pas pouvoir mettre à jour une session si stopDate < startDate
-         it('should not be able to update a session if stopDate < startDate', async () => {
+        it('should not be able to update a session if stopDate < startDate', async () => {
             // GIVEN
             const sessionId = mockSessions[2].id;
             const updatedData = {
-                endDate: '2024-04-06T08:00:00.000Z', // stopDate avant startDate
+                endDate: '2024-04-08T06:00:00.000Z', // stopDate avant startDate
             };
-        
-            // Mocking the updateSession method to throw an error when the condition is met
-            mockSessionsRepository.updateSession = jest.fn().mockImplementation(() => {
-                throw new Error('Stop date must be after start date');
-            });
-        
-            // WHEN
-            let error;
+
             try {
-                await mockSessionsRepository.updateSession(sessionId, updatedData); // Using the mock repository method
-            } catch (e) {
-                error = e;
+                // WHEN
+                const updateSession = await sessionService.updateSession(sessionId, updatedData);
+            } catch (error) {
+                // THEN
+                expect(error.message).toBe('Could not update session');
             }
-        
-            // THEN
-            expect(error).toBeDefined();
-            expect(error.message).toBe('Stop date must be after start date');
         });
-        
+
     });
     describe('getEstimatedStopDate', () => {
-        it('should be able to calculate the estimated stop date when no sesison is completed', async () => {
+        it('should be able to calculate the estimated stop date when no session is completed', async () => {
             // GIVEN
             const startDate = new Date('2024-04-08T08:00:00.000Z');
 
@@ -169,17 +138,15 @@ describe('SessionService', () => {
             // THEN
             expect(estimatedStopDate).toEqual(new Date('2024-04-08T23:00:00.000Z'));
         });
-        // TODO : implement the following tests
-         // Nouveau test : devrait pouvoir calculer la date d'arrêt estimée lorsque les sessions sont terminées
         it('should be able to calculate the estimated stop date when sessions are completed', async () => {
-             // GIVEN
-             const startDate = new Date('2024-04-08T08:00:00.000Z');
+            // GIVEN
+            const startDate = new Date('2024-04-08T08:00:00.000Z');
 
-             // WHEN
-             const estimatedStopDate = await sessionService.getEstimatedStopDate(startDate);
- 
-             // THEN
-             expect(estimatedStopDate).toEqual(new Date('2024-04-08T23:00:00.000Z'));
+            // WHEN
+            const estimatedStopDate = await sessionService.getEstimatedStopDate(startDate);
+
+            // THEN
+            expect(estimatedStopDate).toEqual(new Date('2024-04-08T23:00:00.000Z'));
         });
     });
 });
